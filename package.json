@@ -1,0 +1,19 @@
+{
+  "name"    : "mapismo-worker-past",
+  "author"  : "Fernando Blat <ferblape@gmail.com>",
+  "version" : "0.1.0",
+  "description": "Node.js worker for mapismo",
+  "main": "./app.js",
+  "licenses": [{ "type": "BSD" }],
+  "dependencies": {
+    "hiredis":   ">= 0.1.x",
+    "redis":     ">= 0.7.x",
+    "oauth":     ">= 0.9.x",
+    "jessie":    ">= 0.4.x",
+    "instagram": ">= 0.0.x"
+  },
+  "engine": "node >= 0.6.x",
+  "scripts": {
+    "test": "./node_modules/jessie/bin/jessie  spec/"
+  }
+}
