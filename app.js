@@ -1,7 +1,12 @@
-var utils = require('./src/utils.js');
-    redisLib     = require("redis"),
-    pubsub       = redisLib.createClient("6379", "127.0.0.1"),
-    redisChannel = "mapismo";
+var utils = require('./src/utils.js'),
+    redisChannel = "mapismo",
+    pubsub;
+
+if(process.env.node_env == "production") {
+  pubsub = require('redis-url').connect(process.env.REDISTOGO_URL);
+} else {
+  pubsub = require("redis").createClient("6379", "127.0.0.1");
+}
 
 pubsub.setMaxListeners(0);
 
