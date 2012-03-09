@@ -1,6 +1,0 @@
-export flickr_api_key="d544bbe407a98bd425c565631ab34362"
-export instagram_client_id="f0d3cc511b8a4f31868cab5c7f7b8f0d"
-export instagram_client_secret="350a8924b19f43c19d26b3a0d9411295"
-export node_env=development
-export cartodb_mapismo_consumer_key="dYbMvG5ulXnee1srPizom2tveyFsLUT9oIhnXUkb"
-export cartodb_mapismo_consumer_secret="gjUKm3iebXOCeLLTdtvxYJAJQuEfaDGPpxmr7hzR"
