@@ -1,5 +1,5 @@
 var util = require('util')
- ,  FlickrAPI = require('../vendor/flickr/lib/flickr').FlickrAPI
+ ,  FlickrAPI = require('../vendor/flickr').FlickrAPI
  ,  cdb = require('../src/cartodb_client');
 
 var FlickrWorker = function(message) {
