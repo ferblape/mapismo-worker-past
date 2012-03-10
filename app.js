@@ -19,15 +19,8 @@ process.on('uncaughtException', function(err) {
   return console.error("Uncaught Exception: " + (err));
 });
 
-pubsub.on("message", function(channel, message) {
-  var parsed_message = JSON.parse(message);
-  if(utils.validMessage(parsed_message)){
-    utils.processMessage(parsed_message);
-  } else {
-    console.log("Invalid message: " + parsed_message);
-  }
-  // free memory
-  parsed_message = null;
+pubsub.on("message", function(channel, encryptedMessage) {
+  utils.processMessage(encryptedMessage);
 });
 
 pubsub.subscribe(redisChannel);
