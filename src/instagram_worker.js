@@ -1,6 +1,6 @@
 var util = require('util')
  , instagram = require('instagram')
- , cdb = require('../src/cartodb_client');
+ , cdb = require('./cartodb_client');
 
 var InstagramWorker = function(message) {
   console.log("New instagram worker");
