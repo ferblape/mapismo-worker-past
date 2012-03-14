@@ -5,6 +5,7 @@ var util = require('util')
 var InstagramWorker = function(message) {
   console.log("New instagram worker");
   
+  this.mapId = message.cartodb_map_id;
   this.lng = message.longitude;
   this.lat = message.latitude;
   this.min_timestamp = this._dateToUnixTimestamp(message.start_date);
@@ -32,7 +33,7 @@ InstagramWorker.prototype = {
       max_timestamp: this.max_timestamp
     }, function(images, error){
       images.forEach(function(photo){
-        // console.log(photo.id + " " + photo.ownername);
+        console.log(photo);
         var row = that._processPhotoToRow(photo);
         that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
           if(error != null){
@@ -51,7 +52,12 @@ InstagramWorker.prototype = {
     return {
       source: 'instagram',
       source_id: photoObj.id,
-      title: (photoObj.caption != null) ? photoObj.caption.text : "",
+      map_id: this.mapId,
+      avatar_url: photoObj.user.profile_picture,
+      username: photoObj.user.username,
+      date: new Date(parseInt(photoObj.created_time)*1000).toString(),
+      permalink: photoObj.link,
+      data: photoObj.images.standard_resolution.url,
       latitude: photoObj.location.latitude,
       longitude: photoObj.location.longitude
     };
