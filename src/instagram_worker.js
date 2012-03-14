@@ -49,13 +49,15 @@ InstagramWorker.prototype = {
   // Converts a photo object from instagram into a more
   // compact object with the required attributes to insert in CartoDB
   _processPhotoToRow: function(photoObj){
+    var auxDate = new Date(parseInt(photoObj.created_time)*1000);
     return {
       source: 'instagram',
       source_id: photoObj.id,
       map_id: this.mapId,
       avatar_url: photoObj.user.profile_picture,
       username: photoObj.user.username,
-      date: new Date(parseInt(photoObj.created_time)*1000).toString(),
+      date: auxDate.getFullYear() + '-' + parseInt(auxDate.getMonth()+1) + '-' + auxDate.getDate() + 'T' + 
+            auxDate.getHours() + ':' + auxDate.getMinutes() + ':' + auxDate.getUTCSeconds(),
       permalink: photoObj.link,
       data: photoObj.images.standard_resolution.url,
       latitude: photoObj.location.latitude,

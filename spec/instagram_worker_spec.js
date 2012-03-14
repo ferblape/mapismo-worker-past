@@ -73,7 +73,7 @@ describe("Instagram Worker", function(){
       expect(row.map_id).toEqual(33);
       expect(row.avatar_url).toEqual('http://images.instagram.com/profiles/profile_2175025_75sq_1316909039.jpg');
       expect(row.username).toEqual('nachoquintero');
-      expect(row.date).toEqual('Sun May 15 2011 19:54:07 GMT-0300 (ART)');
+      expect(row.date).toEqual('2011-5-15T19:54:7');
       expect(row.permalink).toEqual('http://instagr.am/p/ETKyS/');
       expect(row.data).toEqual('http://distillery.s3.amazonaws.com/media/2011/05/15/b6aec805431a43538bb9fc0a61404600_7.jpg');
       expect(row.latitude).toEqual(40.42533);
