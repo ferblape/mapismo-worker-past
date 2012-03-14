@@ -18,12 +18,36 @@ describe("Flickr Worker", function(){
   };
   
   var w = new fw.FlickrWorker(message);
-  var row = w._processPhotoToRow({
-    id: '123123',
-    title: '15M in Madrid',
-    latitude: '40.41',
-    longitude: '-3.70'
-  });
+  
+  var flickrPhoto = { 
+    id: '5742022581',
+    owner: '48167889@N07',
+    secret: 'c4ccb67f03',
+    server: '5109',
+    farm: 6,
+    title: '15M Madrid',
+    ispublic: 1,
+    isfriend: 0,
+    isfamily: 0,
+    latitude: 40.416755,
+    longitude: -3.703618,
+    accuracy: '16',
+    context: 0,
+    place_id: 'XrSazRhTUrh4j1shyQ',
+    woeid: '20219885',
+    geo_is_family: 0,
+    geo_is_friend: 0,
+    geo_is_contact: 0,
+    geo_is_public: 1,
+    ownername: 'somabody',
+    datetaken: '2011-05-15 20:21:05',
+    datetakengranularity: '0',
+    url_l: 'http://farm8.staticflickr.com/7143/6819277937_db03644248_b.jpg',
+    height_l: '683',
+    width_l: '1024'
+  };
+  
+  var row = w._processPhotoToRow(flickrPhoto);
   
   describe("constructor method", function(){
     it("should set the attributes from the message", function() {
@@ -41,10 +65,15 @@ describe("Flickr Worker", function(){
   describe("#_processPhotoToRow", function(){
     it("should process a photo result from Flickr to a small object", function(){
       expect(row.source).toEqual('flickr');
-      expect(row.source_id).toEqual('123123');
-      expect(row.title).toEqual('15M in Madrid');
-      expect(row.latitude).toEqual('40.41');
-      expect(row.longitude).toEqual('-3.70');
+      expect(row.source_id).toEqual('5742022581');
+      expect(row.latitude).toEqual(40.416755);
+      expect(row.longitude).toEqual(-3.703618);
+      expect(row.map_id).toEqual(33);
+      expect(row.avatar_url).toEqual("http://www.flickr.com/buddyicons/48167889@N07.jpg");
+      expect(row.username).toEqual("somabody");
+      expect(row.date).toEqual('2011-05-15T20:21:05');
+      expect(row.permalink).toEqual("http://flickr.com/photos/48167889@N07/5742022581");
+      expect(row.data).toEqual("http://farm8.staticflickr.com/7143/6819277937_db03644248_b.jpg");
     });
   });
   
@@ -56,20 +85,7 @@ describe("Flickr Worker", function(){
     });
     
     it("should insert the photos in CartoDB", function(){
-      var searchResults = [
-        {
-          id: 1,
-          title: "Title #1",
-          latitude: "40.41",
-          longitude: "-3.71"
-        },
-        {
-          id: 2,
-          title: "Title #2",
-          latitude: "40.42",
-          longitude: "-3.72"
-        }
-      ];
+      var searchResults = [flickrPhoto];
       var callback = function(error, searchResults){
         return searchResults;
       };

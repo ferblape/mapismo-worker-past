@@ -10,6 +10,7 @@ var FlickrWorker = function(message) {
   this.min_taken_date = message.start_date;
   this.max_taken_date = message.end_date;
   this.text = message.keyword;
+  this.mapId = message.cartodb_map_id;
   this.radius = parseFloat(message.radius/1000);
   this.flickr = new FlickrAPI(process.env.flickr_api_key);
   this.tableName = message.cartodb_table_name;
@@ -33,14 +34,13 @@ FlickrWorker.prototype = {
       lat: this.lat,
       lon: this.lon,
       radius: this.radius,
-      extras: "geo,owner_name",
-      per_page: "3",
+      extras: "geo,owner_name,date_taken,url_l",
+      per_page: 100,
       format: "rest"
     }, function(err, result){
       if(err != null){
         console.log("ERR: " + err.code + " -  " + err.message);
       } else {
-        // console.log("results: " + util.inspect(result));
         result.photo.forEach(function(photo){
           // console.log(photo.id + " " + photo.ownername);
           var row = that._processPhotoToRow(photo);
@@ -62,7 +62,12 @@ FlickrWorker.prototype = {
     return {
       source: 'flickr',
       source_id: photoObj.id,
-      title: photoObj.title,
+      map_id: this.mapId,
+      avatar_url: "http://www.flickr.com/buddyicons/" + photoObj.owner + ".jpg",
+      username: photoObj.ownername,
+      date: photoObj.datetaken.replace(' ','T'),
+      permalink: "http://flickr.com/photos/" + photoObj.owner + "/" + photoObj.id,
+      data: photoObj.url_l,
       latitude: photoObj.latitude,
       longitude: photoObj.longitude
     };
