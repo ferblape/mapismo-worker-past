@@ -1,5 +1,5 @@
 var utils = require('./src/utils.js'),
-    redisChannel = "mapismo",
+    redisChannel = process.env.channel,
     pubsub;
 
 if(process.env.node_env == "production") {

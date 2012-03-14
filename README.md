@@ -41,6 +41,7 @@ In order for this process to run, some environment variables must be set:
   - `cartodb_mapismo_consumer_key`: CartoDB consumer key for user Mapismo
   - `cartodb_mapismo_consumer_secret`: CartoDB consumer secret for user Mapismo
   - `secret`: secret password for encrypt and decrypt messages
+  - `channel`: name of the Redis Pub/Sub channel
 
 Depending on the environment `Redis` is setup in a different way:
 
