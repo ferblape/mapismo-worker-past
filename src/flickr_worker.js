@@ -34,7 +34,7 @@ FlickrWorker.prototype = {
       lat: this.lat,
       lon: this.lon,
       radius: this.radius,
-      extras: "geo,owner_name,date_taken,url_l",
+      extras: "geo,owner_name,date_taken,url_m",
       per_page: 100,
       format: "rest"
     }, function(err, result){
@@ -67,7 +67,7 @@ FlickrWorker.prototype = {
       username: photoObj.ownername,
       date: photoObj.datetaken.replace(' ','T'),
       permalink: "http://flickr.com/photos/" + photoObj.owner + "/" + photoObj.id,
-      data: photoObj.url_l,
+      data: photoObj.url_m,
       latitude: photoObj.latitude,
       longitude: photoObj.longitude
     };

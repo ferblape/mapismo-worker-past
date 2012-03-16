@@ -42,7 +42,7 @@ describe("Flickr Worker", function(){
     ownername: 'somabody',
     datetaken: '2011-05-15 20:21:05',
     datetakengranularity: '0',
-    url_l: 'http://farm8.staticflickr.com/7143/6819277937_db03644248_b.jpg',
+    url_m: 'http://farm8.staticflickr.com/7143/6819277937_db03644248_b.jpg',
     height_l: '683',
     width_l: '1024'
   };
