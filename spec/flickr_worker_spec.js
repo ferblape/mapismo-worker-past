@@ -78,21 +78,19 @@ describe("Flickr Worker", function(){
   });
   
   describe("#work", function(){
-    it("should search for the photos",function(){
-      spyOn(w.flickr.photos, 'search');
+    it("should call aux function",function(){
+      spyOn(w, '_flickrSearchAndInsert');
       w.work();
-      expect(w.flickr.photos.search).toHaveBeenCalled();
-    });
-    
-    it("should insert the photos in CartoDB", function(){
-      var searchResults = [flickrPhoto];
-      var callback = function(error, searchResults){
-        return searchResults;
-      };
-      spyOn(w.flickr.photos, "search").andReturn(callback);
-      spyOn(w.cartoDB, "insertRow");
-      w.work();
-      pending("expect(w.cartoDB.insertRow).toHaveBeenCalled();")
+      expect(w._flickrSearchAndInsert).toHaveBeenCalledWith(1);
     });
   });
+
+  describe("#_flickrSearchAndInsert", function(){
+    it("should search for the photos",function(){
+      spyOn(w.flickr.photos, 'search');
+      w._flickrSearchAndInsert(2);
+      expect(w.flickr.photos.search).toHaveBeenCalled();
+    });
+  });
+
 });

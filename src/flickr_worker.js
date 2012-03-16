@@ -25,6 +25,9 @@ var FlickrWorker = function(message) {
 
 FlickrWorker.prototype = {
   work: function(){
+    this._flickrSearchAndInsert(1);
+  },
+  _flickrSearchAndInsert: function(currentPage){
     var that = this;
     this.flickr.photos.search({
       min_taken_date: this.min_taken_date,
@@ -35,14 +38,21 @@ FlickrWorker.prototype = {
       lon: this.lon,
       radius: this.radius,
       extras: "geo,owner_name,date_taken,url_m",
-      per_page: 100,
-      format: "rest"
+      per_page: 500,
+      format: "rest",
+      page: currentPage,
     }, function(err, result){
       if(err != null){
         console.log("ERR: " + err.code + " -  " + err.message);
       } else {
+        console.log("FOUND " + parseInt(result.pages)  + " pages");
+        if(parseInt(result.pages) > 1 && currentPage == 1){
+          for(var page = 2; page <= result.pages; page++){
+            that._flickrSearchAndInsert(page);
+          }
+        }
+        console.log("Fetching from page " + parseInt(currentPage));
         result.photo.forEach(function(photo){
-          // console.log(photo.id + " " + photo.ownername);
           var row = that._processPhotoToRow(photo);
           that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
             if(error != null){
