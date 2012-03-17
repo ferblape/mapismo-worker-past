@@ -6,7 +6,6 @@
   "main": "./app.js",
   "licenses": [{ "type": "BSD" }],
   "dependencies": {
-    "hiredis":   ">= 0.1.x",
     "redis":     ">= 0.7.x",
     "oauth":     ">= 0.9.x",
     "jessie":    ">= 0.3.x",
