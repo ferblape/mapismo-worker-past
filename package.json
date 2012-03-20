@@ -10,7 +10,8 @@
     "oauth":     ">= 0.9.x",
     "jessie":    ">= 0.3.x",
     "instagram": ">= 0.0.x",
-    "redis-url": ">= 0.0.x"
+    "redis-url": ">= 0.0.x",
+    "hiredis":   ">= 0.1.x"
   },
   "engines": {
     "node": "0.6.6",
