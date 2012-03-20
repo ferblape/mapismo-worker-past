@@ -10,6 +10,9 @@ var decryptMessage = function(encryptedMessage){
 }
 
 var validMessage = function(message){
+  if(message == null) {
+    return false;
+  }
   var i, requiredFields = [
     'cartodb_table_name', 'cartodb_map_id', 'cartodb_username', 'cartodb_userid',
     'cartodb_auth_token', 'cartodb_auth_secret', 'source', 'keyword',
@@ -32,7 +35,13 @@ var validMessage = function(message){
 }
 
 var processMessage = function(encryptedMessage){
-  var message = JSON.parse(this.decryptMessage(encryptedMessage));
+  var message;
+
+  try {
+    message = JSON.parse(this.decryptMessage(encryptedMessage));
+  } catch(e) {
+    message = null;
+  }
 
   if(this.validMessage(message)){
     switch(message.source){
