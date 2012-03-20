@@ -1,10 +1,8 @@
-var util = require('util')
- ,  FlickrAPI = require('./vendor/flickr').FlickrAPI
- ,  cdb = require('./cartodb_client');
+var    util = require('util'),
+  FlickrAPI = require('./vendor/flickr').FlickrAPI,
+        cdb = require('./cartodb_client');
 
 var FlickrWorker = function(message) {
-  console.log("New flickr worker");
-  
   this.lon = message.longitude;
   this.lat = message.latitude;
   this.min_taken_date = message.start_date;
@@ -43,22 +41,18 @@ FlickrWorker.prototype = {
       page: currentPage,
     }, function(err, result){
       if(err != null){
-        console.log("ERR: " + err.code + " -  " + err.message);
+        console.log("[ERROR on flickr.photos.search] " + err.code + " -  " + err.message);
       } else {
-        console.log("FOUND " + parseInt(result.pages)  + " pages");
         if(parseInt(result.pages) > 1 && currentPage == 1){
           for(var page = 2; page <= result.pages; page++){
             that._flickrSearchAndInsert(page);
           }
         }
-        console.log("Fetching from page " + parseInt(currentPage));
         result.photo.forEach(function(photo){
           var row = that._processPhotoToRow(photo);
           that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
             if(error != null){
-              console.log("[ERROR] " + util.inspect(error));
-            } else {
-              console.log("[Response] " + util.inspect(responseBody));
+              console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
             }
           });
         });

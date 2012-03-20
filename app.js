@@ -26,4 +26,3 @@ pubsub.on("message", function(channel, encryptedMessage) {
 pubsub.subscribe(redisChannel);
 
 console.log("Running Mapismo Worker from the Past™ in " + process.env.node_env + " environment");
-console.log("Waiting for messages...");

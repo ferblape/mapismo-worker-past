@@ -1,10 +1,8 @@
-var util = require('util')
- , instagram = require('instagram')
- , cdb = require('./cartodb_client');
+var     util = require('util'),
+   instagram = require('instagram'),
+         cdb = require('./cartodb_client');
 
 var InstagramWorker = function(message) {
-  console.log("New instagram worker");
-  
   this.mapId = message.cartodb_map_id;
   this.lng = message.longitude;
   this.lat = message.latitude;
@@ -33,13 +31,10 @@ InstagramWorker.prototype = {
       max_timestamp: this.max_timestamp
     }, function(images, error){
       images.forEach(function(photo){
-        console.log(photo);
         var row = that._processPhotoToRow(photo);
         that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
           if(error != null){
-            console.log("[ERROR] " + util.inspect(error));
-          } else {
-            console.log("[Response] " + util.inspect(responseBody));
+            console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
           }
         });
       });
@@ -56,7 +51,7 @@ InstagramWorker.prototype = {
       map_id: this.mapId,
       avatar_url: photoObj.user.profile_picture,
       username: photoObj.user.username,
-      date: auxDate.getFullYear() + '-' + parseInt(auxDate.getMonth()+1) + '-' + auxDate.getDate() + 'T' + 
+      date: auxDate.getFullYear() + '-' + parseInt(auxDate.getMonth()+1) + '-' + auxDate.getDate() + 'T' +
             auxDate.getHours() + ':' + auxDate.getMinutes() + ':' + auxDate.getUTCSeconds(),
       permalink: photoObj.link,
       data: photoObj.images.standard_resolution.url,

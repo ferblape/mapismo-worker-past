@@ -10,23 +10,22 @@ var decryptMessage = function(encryptedMessage){
 }
 
 var validMessage = function(message){
-  var requiredFields = [
+  var i, requiredFields = [
     'cartodb_table_name', 'cartodb_map_id', 'cartodb_username', 'cartodb_userid',
     'cartodb_auth_token', 'cartodb_auth_secret', 'source', 'keyword',
     'latitude', 'longitude', 'radius', 'start_date', 'end_date'
   ],
-  validSources = ['instagram', 'flickr'],
-  i;
+  validSources = ['instagram', 'flickr'];
 
   var messageKeys = Object.keys(message);
+  // Check if all required fields are present
   for(i = 0; i < requiredFields.length; i++){
     if(messageKeys.indexOf(requiredFields[i]) == -1){
-      console.log(requiredFields[i]  + " is missing!");
       return false;
     }
   }
+  // Check if the source is valid
   if(validSources.indexOf(message.source) == -1){
-    console.log(message.source  + " is an invalid source!");
     return false;
   }
   return true;
