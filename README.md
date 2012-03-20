@@ -1,5 +1,7 @@
 # Mapismo Worker for the Past
 
+[![Build Status](https://secure.travis-ci.org/ferblape/mapismo-worker-past.png?branch=master)](http://travis-ci.org/ferblape/mapismo-worker-past)
+
 Mapismo Worker for the Past™ is a Node.js worker which fetchs geolocated data from sources which entries happened in the past and inserts them into a CartoDB table.
 
 ## How it works
@@ -43,7 +45,9 @@ New workers should be addedd to `processMessage` method in `mapismo` module.
 
 ## Setup
 
-In order for this process to run, some environment variables must be set:
+First of all, you have to run `npm install` to install dependencies.
+
+Also, in order for this process to run, some environment variables must be set:
 
   - `node_env`: the environment where the app is running
   - `flickr_api_key`: Flickr API key
@@ -59,6 +63,10 @@ Depending on the environment `Redis` is setup in a different way:
   - in `production` environment `REDISTOGO_URL` environment variable must be set with the url from Redis to Go
 
   - in `development` environment it assumes that it runs in `localhost`, in port `6379`
+
+## Running the tests
+
+This project uses `npm` to manage the dependencies and to run the tests, so `npm test` is your command :)
 
 ## Author
 
