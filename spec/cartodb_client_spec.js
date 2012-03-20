@@ -6,7 +6,7 @@ describe("CartoDB client", function() {
     auth_token: 'auth_token',
     auth_secret: 'auth_secret'
   });
-  
+
   it("should store the username of CartoDB user", function(){
     expect(cartoDB.username).toEqual('blat');
   });
@@ -22,7 +22,7 @@ describe("CartoDB client", function() {
   it("should have an OAuth connection", function(){
     expect(cartoDB.oa).not.toBeUndefined();
   });
-  
+
   describe("#_convertDataToInsertURI", function() {
     it("should convert a object into a URL with the insert query", function(){
       var row = {
@@ -36,7 +36,7 @@ describe("CartoDB client", function() {
       expect(cartoDB._convertDataToInsertURI('secret_table_name', row)).toEqual(query);
     });
   });
-  
+
   describe("#insertRow", function(){
     it("should perform a request CartoDB with an INSERT query", function(){
       spyOn(cartoDB, "_convertDataToInsertURI").andReturn('cartodb_api_call_url');
