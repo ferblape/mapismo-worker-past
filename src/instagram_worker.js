@@ -52,7 +52,7 @@ InstagramWorker.prototype = {
       avatar_url: photoObj.user.profile_picture,
       username: photoObj.user.username,
       date: auxDate.getFullYear() + '-' + parseInt(auxDate.getMonth()+1) + '-' + auxDate.getDate() + 'T' +
-            auxDate.getHours() + ':' + auxDate.getMinutes() + ':' + auxDate.getUTCSeconds(),
+            auxDate.getUTCHours() + ':' + auxDate.getUTCMinutes() + ':' + auxDate.getUTCSeconds(),
       permalink: photoObj.link,
       data: photoObj.images.standard_resolution.url,
       latitude: photoObj.location.latitude,
