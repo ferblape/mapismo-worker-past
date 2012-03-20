@@ -36,8 +36,6 @@ var processMessage = function(encryptedMessage){
   var message = JSON.parse(this.decryptMessage(encryptedMessage));
 
   if(this.validMessage(message)){
-    console.log("Processing message:");
-    console.log(message);
     switch(message.source){
       case 'flickr':
         var flickrWorker = new fw.FlickrWorker(message);
@@ -47,20 +45,14 @@ var processMessage = function(encryptedMessage){
         var instagramWorker = new iw.InstagramWorker(message);
         instagramWorker.work();
         break;
-      // Add more cases with new workers
+      // Add new data sources
     }
   } else {
-    console.log("[ERROR] Invalid message! ")
+    console.log("[ERROR] Invalid message! %s", message);
   }
 }
 
-var isString = function(s) {
-  return Object.prototype.toString.call(s) === '[object String]';
-}
-
-exports.isString = isString;
-
-exports.validMessage = validMessage;
+exports.validMessage   = validMessage;
 exports.processMessage = processMessage;
 exports.decryptMessage = decryptMessage;
 

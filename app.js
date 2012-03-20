@@ -1,4 +1,4 @@
-var utils = require('./src/utils.js'),
+var mapismo = require('./src/mapismo.js'),
     redisChannel = process.env.channel,
     pubsub;
 
@@ -20,7 +20,7 @@ process.on('uncaughtException', function(err) {
 });
 
 pubsub.on("message", function(channel, encryptedMessage) {
-  utils.processMessage(encryptedMessage);
+  mapismo.processMessage(encryptedMessage);
 });
 
 pubsub.subscribe(redisChannel);
