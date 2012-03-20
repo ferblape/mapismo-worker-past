@@ -30,14 +30,18 @@ InstagramWorker.prototype = {
       min_timestamp: this.min_timestamp,
       max_timestamp: this.max_timestamp
     }, function(images, error){
-      images.forEach(function(photo){
-        var row = that._processPhotoToRow(photo);
-        that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
-          if(error != null){
-            console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
-          }
+      if(error != null){
+        console.log("[ERROR on instagram.media.search] " + err.code + " -  " + err.message);
+      } else {
+        images.forEach(function(photo){
+          var row = that._processPhotoToRow(photo);
+          that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
+            if(error != null){
+              console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
+            }
+          });
         });
-      });
+      }
     });
   },
   // (photoObj:Object photo from Instagram) → Object
