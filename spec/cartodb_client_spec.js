@@ -30,9 +30,10 @@ describe("CartoDB client", function() {
         source_id: '123123',
         title: '15M in Madrid',
         latitude: '40.41',
-        longitude: '-3.70'
+        longitude: '-3.70',
+        preview_token: '123abc'
       };
-      var query = "https://blat.cartodb.com/api/v1/sql?q=INSERT%20INTO%20secret_table_name%20(source%2Csource_id%2Ctitle%2Cthe_geom)%20VALUES%20('flickr'%2C'123123'%2C'15M%20in%20Madrid'%2CGEOMETRYFROMTEXT('POINT(-3.70%2040.41)'%2C4326))";
+      var query = "https://blat.cartodb.com/api/v1/sql?q=INSERT%20INTO%20secret_table_name%20(source%2Csource_id%2Ctitle%2Cpreview_token%2Cthe_geom)%20VALUES%20('flickr'%2C'123123'%2C'15M%20in%20Madrid'%2C'123abc'%2CGEOMETRYFROMTEXT('POINT(-3.70%2040.41)'%2C4326))";
       expect(cartoDB._convertDataToInsertURI('secret_table_name', row)).toEqual(query);
     });
   });

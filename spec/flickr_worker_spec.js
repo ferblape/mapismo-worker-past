@@ -14,12 +14,13 @@ describe("Flickr Worker", function(){
     longitude: -3.703611,
     radius: 3000,
     start_date: '2011-05-15+00:00:00',
-    end_date: '2011-05-15+23:59:59'
+    end_date: '2011-05-15+23:59:59',
+    preview_token: '123abc'
   };
-  
+
   var w = new fw.FlickrWorker(message);
-  
-  var flickrPhoto = { 
+
+  var flickrPhoto = {
     id: '5742022581',
     owner: '48167889@N07',
     secret: 'c4ccb67f03',
@@ -46,9 +47,9 @@ describe("Flickr Worker", function(){
     height_l: '683',
     width_l: '1024'
   };
-  
+
   var row = w._processPhotoToRow(flickrPhoto);
-  
+
   describe("constructor method", function(){
     it("should set the attributes from the message", function() {
       var w = new fw.FlickrWorker(message);
@@ -58,10 +59,11 @@ describe("Flickr Worker", function(){
       expect(w.max_taken_date).toEqual('2011-05-15+23:59:59');
       expect(w.text).toEqual('15m');
       expect(w.radius).toEqual(3.0);
+      expect(w.previewToken).toEqual('123abc');
       expect(w.flickr).not.toBeUndefined();
     });
   });
-  
+
   describe("#_processPhotoToRow", function(){
     it("should process a photo result from Flickr to a small object", function(){
       expect(row.source).toEqual('flickr');
@@ -74,9 +76,10 @@ describe("Flickr Worker", function(){
       expect(row.date).toEqual('2011-05-15T20:21:05');
       expect(row.permalink).toEqual("http://flickr.com/photos/48167889@N07/5742022581");
       expect(row.data).toEqual("http://farm8.staticflickr.com/7143/6819277937_db03644248_b.jpg");
+      expect(row.preview_token).toEqual('123abc');
     });
   });
-  
+
   describe("#work", function(){
     it("should call aux function",function(){
       spyOn(w, '_flickrSearchAndInsert');

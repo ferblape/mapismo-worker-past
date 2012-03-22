@@ -12,6 +12,7 @@ var FlickrWorker = function(message) {
   this.radius = parseFloat(message.radius/1000);
   this.flickr = new FlickrAPI(process.env.flickr_api_key);
   this.tableName = message.cartodb_table_name;
+  this.previewToken = message.preview_token;
   this.cartoDB = new cdb.CartoDB({
     username: message.cartodb_username,
     auth_token: message.cartodb_auth_token,
@@ -73,7 +74,8 @@ FlickrWorker.prototype = {
       permalink: "http://flickr.com/photos/" + photoObj.owner + "/" + photoObj.id,
       data: photoObj.url_m,
       latitude: photoObj.latitude,
-      longitude: photoObj.longitude
+      longitude: photoObj.longitude,
+      preview_token: this.previewToken
     };
   }
 }

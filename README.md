@@ -26,11 +26,14 @@ Once decrypted, the message is a JSON with this structure:
   longitude: <float>,             # the longitude where search for
   radius: <integer>,              # the radius in meters
   start_date: <datetime>,         # search from this date
-  end_date: <datetime>            # search until this date
+  end_date: <datetime> ,          # search until this date
+  preview_token: <string>         # a token to identify preview data
 }
 ````
 
 For each new message received, the worker performs the search and inserts the values in the table indicated in the message with the credentials included in the message.
+
+It can work in a special model for the preview data, which is date associated to a preview token, instead of to a map, because the map does not exist yet. Preview messages arrive with 0 as `map_id` and a non blank `preview_token`. The workers might override some parameters for preview data (as a fewer number of results, for example).
 
 ### Data sources clients
 

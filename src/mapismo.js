@@ -16,7 +16,7 @@ var validMessage = function(message){
   var i, requiredFields = [
     'cartodb_table_name', 'cartodb_map_id', 'cartodb_username', 'cartodb_userid',
     'cartodb_auth_token', 'cartodb_auth_secret', 'source', 'keyword',
-    'latitude', 'longitude', 'radius', 'start_date', 'end_date'
+    'latitude', 'longitude', 'radius', 'start_date', 'end_date', 'preview_token'
   ],
   validSources = ['instagram', 'flickr'];
 

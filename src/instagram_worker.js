@@ -11,6 +11,7 @@ var InstagramWorker = function(message) {
   this.distance = parseFloat(message.radius);
   this.instagram = instagram.createClient(process.env.instagram_client_id, process.env.instagram_client_secret);
   this.tableName = message.cartodb_table_name;
+  this.previewToken = message.preview_token;
   this.cartoDB = new cdb.CartoDB({
     username: message.cartodb_username,
     auth_token: message.cartodb_auth_token,
@@ -60,7 +61,8 @@ InstagramWorker.prototype = {
       permalink: photoObj.link,
       data: photoObj.images.standard_resolution.url,
       latitude: photoObj.location.latitude,
-      longitude: photoObj.location.longitude
+      longitude: photoObj.location.longitude,
+      preview_token: this.previewToken
     };
   },
   // (date:String) → Number
@@ -72,4 +74,3 @@ InstagramWorker.prototype = {
 }
 
 exports.InstagramWorker = InstagramWorker;
-

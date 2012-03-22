@@ -14,7 +14,8 @@ describe("Instagram Worker", function(){
     longitude: -3.703611,
     radius: 3000,
     start_date: '2011-05-15+00:00:00',
-    end_date: '2011-05-15+23:59:59'
+    end_date: '2011-05-15+23:59:59',
+    preview_token: '123abc'
   };
 
   var w = new iw.InstagramWorker(message);
@@ -60,6 +61,7 @@ describe("Instagram Worker", function(){
       expect(w.min_timestamp).toEqual(1305417600);
       expect(w.max_timestamp).toEqual(1305503999);
       expect(w.distance).toEqual(3000);
+      expect(w.previewToken).toEqual('123abc');
       expect(w.instagram).not.toBeUndefined();
     });
   });
@@ -77,6 +79,7 @@ describe("Instagram Worker", function(){
       expect(row.permalink).toEqual('http://instagr.am/p/ETKyS/');
       expect(row.data).toEqual('http://distillery.s3.amazonaws.com/media/2011/05/15/b6aec805431a43538bb9fc0a61404600_7.jpg');
       expect(row.latitude).toEqual(40.42533);
+      expect(row.preview_token).toEqual('123abc');
       expect(row.longitude).toEqual(-3.703962);
     });
   });
