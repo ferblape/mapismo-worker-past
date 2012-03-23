@@ -16,12 +16,32 @@ var CartoDB = function(config) {
 }
 
 CartoDB.prototype = {
-  // (tableName:String, row:Ibject, callback:Function) → Callback function
+  // (tableName:String, row:Object, callback:Function) → Callback function
   // Insert the row object in the table with name tableName
   insertRow: function(tableName, row, callback){
-    this.runQuery(this._convertDataToInsertQuery(tableName, row), function(error, responseBody, response){
-      callback(error, responseBody, response);
-    })
+    var that = this;
+    this.checkIfRowExist(row, function(exists){
+      if(!exists) {
+        that.runQuery(that._convertDataToInsertQuery(tableName, row), function(error, responseBody, response){
+          callback(error, responseBody, response);
+        });
+      }
+    });
+  },
+
+  // (row:Object, callback:Function) → Callback function
+  // Check if the given row already exists
+  checkIfRowExist: function(row, callback){
+    this.runQuery("SELECT cartodb_id FROM mapismo_data WHERE map_id="+row.map_id+" AND source='"+row.source+"' AND source_id='"+row.source_id+"'", function(error, responseBody, response){
+      if(error != null){
+        return callback(false);
+      } else {
+        if(JSON.parse(responseBody).total_rows > 0){
+          return callback(true);
+        }
+        return callback(false);
+      }
+    });
   },
 
   // (query:String, callback:Function) → Callback function
