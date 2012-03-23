@@ -1,6 +1,7 @@
 var    util = require('util'),
   FlickrAPI = require('./vendor/flickr').FlickrAPI,
-        cdb = require('./cartodb_client');
+        cdb = require('./cartodb_client'),
+      utils = require('../src/utils.js');
 
 var FlickrWorker = function(message) {
   this.lon = message.longitude;
@@ -32,7 +33,6 @@ FlickrWorker.prototype = {
     var searchOptions = {
       min_taken_date: this.min_taken_date,
       max_taken_date: this.max_taken_date,
-      text: this.text,
       has_geo: 1,
       lat: this.lat,
       lon: this.lon,
@@ -42,6 +42,9 @@ FlickrWorker.prototype = {
       format: "rest",
       page: currentPage,
     };
+    if(!utils.isBlankString(this.text)){
+      searchOptions.text = this.text;
+    }
     if(this.inPreviewMode){
       searchOptions.per_page = 100;
     }
