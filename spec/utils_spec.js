@@ -14,4 +14,16 @@ describe("Utils module", function(){
 
   });
 
+  describe("#isBlankString method", function(){
+
+    it("should return true when is a blank string", function(){
+      expect(utils.isBlankString("")).toBeTruthy();
+    });
+
+    it("should return false when is not a blank string", function(){
+      expect(utils.isBlankString("boo!")).toBeFalsy();
+    });
+
+  });
+
 });
