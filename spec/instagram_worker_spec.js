@@ -58,8 +58,8 @@ describe("Instagram Worker", function(){
       var w = new iw.InstagramWorker(message);
       expect(w.lng).toEqual(-3.703611);
       expect(w.lat).toEqual(40.416691);
-      expect(w.min_timestamp).toEqual(1305417600);
-      expect(w.max_timestamp).toEqual(1305503999);
+      expect(w.min_timestamp).toEqual(1305428400);
+      expect(w.max_timestamp).toEqual(1305514799);
       expect(w.distance).toEqual(3000);
       expect(w.previewToken).toEqual('123abc');
       expect(w.instagram).not.toBeUndefined();

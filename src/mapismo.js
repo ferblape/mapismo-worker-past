@@ -1,5 +1,6 @@
 var      fw = require('./flickr_worker'),
          iw = require('./instagram_worker'),
+       util = require('util'),
      crypto = require('crypto');
 
 var decryptMessage = function(encryptedMessage){

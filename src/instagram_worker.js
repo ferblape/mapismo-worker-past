@@ -12,6 +12,7 @@ var InstagramWorker = function(message) {
   this.instagram = instagram.createClient(process.env.instagram_client_id, process.env.instagram_client_secret);
   this.tableName = message.cartodb_table_name;
   this.previewToken = message.preview_token;
+  this.inPreviewMode = this.previewToken == null ? false : (this.previewToken.trim() != "");
   this.cartoDB = new cdb.CartoDB({
     username: message.cartodb_username,
     auth_token: message.cartodb_auth_token,
@@ -34,14 +35,26 @@ InstagramWorker.prototype = {
       if(error != null){
         console.log("[ERROR on instagram.media.search] " + err.code + " -  " + err.message);
       } else {
-        images.forEach(function(photo){
-          var row = that._processPhotoToRow(photo);
-          that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
+        if(that.inPreviewMode) {
+          var queries = [];
+          images.forEach(function(photo){
+            queries.push(that.cartoDB._convertDataToInsertQuery(that.tableName, that._processPhotoToRow(photo)));
+          });
+          that.cartoDB.runQuery(queries.join(";"), function(error, responseBody, response){
             if(error != null){
               console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
             }
           });
-        });
+        } else {
+          images.forEach(function(photo){
+            var row = that._processPhotoToRow(photo);
+            that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
+              if(error != null){
+                console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
+              }
+            });
+          });
+        }
       }
     });
   },
@@ -68,7 +81,7 @@ InstagramWorker.prototype = {
   // (date:String) → Number
   // Converts a date as a string into a Unix timestamp
   _dateToUnixTimestamp: function(date){
-    var timestamp = new Date(date.replace('+','T'));
+    var timestamp = new Date(date.replace('+',' '));
     return (timestamp.getTime() / 1000);
   }
 }

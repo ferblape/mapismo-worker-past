@@ -54,14 +54,26 @@ FlickrWorker.prototype = {
             that._flickrSearchAndInsert(page);
           }
         }
-        result.photo.forEach(function(photo){
-          var row = that._processPhotoToRow(photo);
-          that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
+        if(that.inPreviewMode) {
+          var queries = [];
+          result.photo.forEach(function(photo){
+            queries.push(that.cartoDB._convertDataToInsertQuery(that.tableName, that._processPhotoToRow(photo)));
+          });
+          that.cartoDB.runQuery(queries.join(";"), function(error, responseBody, response){
             if(error != null){
               console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
             }
           });
-        });
+        } else {
+          result.photo.forEach(function(photo){
+            var row = that._processPhotoToRow(photo);
+            that.cartoDB.insertRow(that.tableName, row, function(error, responseBody, response){
+              if(error != null){
+                console.log("[ERROR on cartoDB.insertRow] " + util.inspect(error));
+              }
+            });
+          });
+        }
       }
     });
   },
