@@ -51,7 +51,7 @@ describe("Flickr Worker", function(){
   var row = w._processPhotoToRow(flickrPhoto);
 
   describe("constructor method", function(){
-    it("should set the attributes from the message", function() {
+    it("should set the attributes from the message", function(){
       var w = new fw.FlickrWorker(message);
       expect(w.lon).toEqual(-3.703611);
       expect(w.lat).toEqual(40.416691);
@@ -61,6 +61,14 @@ describe("Flickr Worker", function(){
       expect(w.radius).toEqual(3.0);
       expect(w.previewToken).toEqual('123abc');
       expect(w.flickr).not.toBeUndefined();
+      expect(w.inPreviewMode).toBeTruthy();
+    });
+
+    it("should set inPreviewMode to false if preview_token is null", function(){
+      message.preview_token = null;
+      var w = new fw.FlickrWorker(message);
+      expect(w.previewToken).toEqual(null);
+      expect(w.inPreviewMode).toBeFalsy();
     });
   });
 

@@ -11,7 +11,9 @@
     "jessie":    ">= 0.3.x",
     "instagram": ">= 0.0.x",
     "redis-url": ">= 0.0.x",
-    "hiredis":   ">= 0.1.x"
+    "hiredis":   ">= 0.1.x",
+    "hashish":   ">= 0.0.x",
+    "chainsaw":  ">= 0.1.x"
   },
   "engines": {
     "node": "0.6.6",

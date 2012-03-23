@@ -13,6 +13,7 @@ var FlickrWorker = function(message) {
   this.flickr = new FlickrAPI(process.env.flickr_api_key);
   this.tableName = message.cartodb_table_name;
   this.previewToken = message.preview_token;
+  this.inPreviewMode = this.previewToken == null ? false : (this.previewToken.trim() != "");
   this.cartoDB = new cdb.CartoDB({
     username: message.cartodb_username,
     auth_token: message.cartodb_auth_token,
@@ -28,7 +29,7 @@ FlickrWorker.prototype = {
   },
   _flickrSearchAndInsert: function(currentPage){
     var that = this;
-    this.flickr.photos.search({
+    var searchOptions = {
       min_taken_date: this.min_taken_date,
       max_taken_date: this.max_taken_date,
       text: this.text,
@@ -40,11 +41,15 @@ FlickrWorker.prototype = {
       per_page: 500,
       format: "rest",
       page: currentPage,
-    }, function(err, result){
+    };
+    if(this.inPreviewMode){
+      searchOptions.per_page = 100;
+    }
+    this.flickr.photos.search(searchOptions, function(err, result){
       if(err != null){
         console.log("[ERROR on flickr.photos.search] " + err.code + " -  " + err.message);
       } else {
-        if(parseInt(result.pages) > 1 && currentPage == 1){
+        if(parseInt(result.pages) > 1 && currentPage == 1 && !that.inPreviewMode){
           for(var page = 2; page <= result.pages; page++){
             that._flickrSearchAndInsert(page);
           }
