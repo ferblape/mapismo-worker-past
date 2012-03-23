@@ -23,7 +23,13 @@ describe("CartoDB client", function() {
     expect(cartoDB.oa).not.toBeUndefined();
   });
 
-  describe("#_convertDataToInsertURI", function() {
+  describe("#_apiSQLEndPoint", function(){
+    it("should return the url of the endpoint", function(){
+      expect(cartoDB._apiSQLEndPoint()).toEqual('https://blat.cartodb.com/api/v1/sql');
+    });
+  });
+
+  describe("#_convertDataToInsertQuery", function() {
     it("should convert a object into a URL with the insert query", function(){
       var row = {
         source: 'flickr',
@@ -33,17 +39,15 @@ describe("CartoDB client", function() {
         longitude: '-3.70',
         preview_token: '123abc'
       };
-      var query = "https://blat.cartodb.com/api/v1/sql?q=INSERT%20INTO%20secret_table_name%20(source%2Csource_id%2Ctitle%2Cpreview_token%2Cthe_geom)%20VALUES%20('flickr'%2C'123123'%2C'15M%20in%20Madrid'%2C'123abc'%2CGEOMETRYFROMTEXT('POINT(-3.70%2040.41)'%2C4326))";
-      expect(cartoDB._convertDataToInsertURI('secret_table_name', row)).toEqual(query);
+      expect(cartoDB._convertDataToInsertQuery('secret_table_name', row)).toEqual("INSERT INTO secret_table_name (source,source_id,title,preview_token,the_geom) VALUES ('flickr','123123','15M in Madrid','123abc',GEOMETRYFROMTEXT('POINT(-3.70 40.41)',4326))");
     });
   });
 
-  describe("#insertRow", function(){
+  describe("#runQuery", function(){
     it("should perform a request CartoDB with an INSERT query", function(){
-      spyOn(cartoDB, "_convertDataToInsertURI").andReturn('cartodb_api_call_url');
-      spyOn(cartoDB.oa, 'getProtectedResource');
-      cartoDB.insertRow('tableName', {}, function(){});
-      expect(cartoDB.oa.getProtectedResource).toHaveBeenCalledWith("cartodb_api_call_url", 'POST', 'auth_token', 'auth_secret', jasmine.any(Function));
+      spyOn(cartoDB.oa, 'post');
+      cartoDB.runQuery('query', function(){});
+      expect(cartoDB.oa.post).toHaveBeenCalledWith("https://blat.cartodb.com/api/v1/sql", 'auth_token', 'auth_secret', {q: 'query'}, "application/x-www-form-urlencoded", jasmine.any(Function));
     });
   });
 });

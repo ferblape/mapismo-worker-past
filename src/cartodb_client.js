@@ -16,12 +16,20 @@ var CartoDB = function(config) {
 }
 
 CartoDB.prototype = {
-  // (tableName:String, row:Object, callback:Function) → Callback function
-  // Inserts a row in a table
+  // (tableName:String, row:Ibject, callback:Function) → Callback function
+  // Insert the row object in the table with name tableName
   insertRow: function(tableName, row, callback){
-    var requestUrl = this._convertDataToInsertURI(tableName, row);
-    this.oa.getProtectedResource(requestUrl, "POST", this.auth_token,
-                                 this.auth_secret, function(error, responseBody, response) {
+    this.runQuery(this._convertDataToInsertQuery(tableName, row), function(error, responseBody, response){
+      callback(error, responseBody, response);
+    })
+  },
+
+  // (query:String, callback:Function) → Callback function
+  // Runs the given query
+  runQuery: function(query, callback){
+    this.oa.post(this._apiSQLEndPoint(), this.auth_token,
+                 this.auth_secret, {q: query}, "application/x-www-form-urlencoded",
+                 function(error, responseBody, response) {
       return callback(error, responseBody, response);
     });
   },
@@ -30,7 +38,7 @@ CartoDB.prototype = {
   // - Private function -
   // Converts a table name and a row object into a valid URI
   // with the insert query as a parameter
-  _convertDataToInsertURI: function(tableName, row){
+  _convertDataToInsertQuery: function(tableName, row){
     var i, latitude, longitude, value, query
         keysString = "",
         valuesString = "",
@@ -68,10 +76,14 @@ CartoDB.prototype = {
     valuesString += ",GEOMETRYFROMTEXT('POINT(" + longitude + " " + latitude + ")',4326)";
 
     // Create the INSERT query
-    query = "INSERT INTO " + tableName + " (" + keysString + ") VALUES (" + valuesString + ")";
+    return "INSERT INTO " + tableName + " (" + keysString + ") VALUES (" + valuesString + ")";
+  },
 
-    // Build the URL with the query
-    return "https://" + this.username + ".cartodb.com/api/v1/sql?q=" + querystring.escape(query);
+  // () → String
+  // - Private function -
+  // Returns the endpoint of the SQL API
+  _apiSQLEndPoint: function(){
+    return "https://" + this.username + ".cartodb.com/api/v1/sql";
   }
 };
 

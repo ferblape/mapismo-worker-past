@@ -99,7 +99,7 @@ describe("Instagram Worker", function(){
       spyOn(w.instagram.media, "search").andReturn(callback);
       spyOn(w.cartoDB, "insertRow");
       w.work();
-      pending("expect(w.cartoDB.insertRow).toHaveBeenCalled();")
+      pending("expect(w.cartoDB.insertRow).toHaveBeenCalled();");
     });
   });
 });
