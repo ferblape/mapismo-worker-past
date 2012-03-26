@@ -70,7 +70,7 @@ InstagramWorker.prototype = {
       avatar_url: photoObj.user.profile_picture,
       username: photoObj.user.username,
       date: auxDate.getFullYear() + '-' + parseInt(auxDate.getMonth()+1) + '-' + auxDate.getDate() + 'T' +
-            auxDate.getUTCHours() + ':' + auxDate.getUTCMinutes() + ':' + auxDate.getUTCSeconds(),
+            auxDate.getHours() + ':' + auxDate.getMinutes() + ':' + auxDate.getSeconds(),
       permalink: photoObj.link,
       data: photoObj.images.standard_resolution.url,
       latitude: photoObj.location.latitude,
@@ -79,9 +79,9 @@ InstagramWorker.prototype = {
     };
   },
   // (date:String) → Number
-  // Converts a date as a string into a Unix timestamp
+  // Converts a date as a string into a Unix timestamp in UTC
   _dateToUnixTimestamp: function(date){
-    var timestamp = new Date(date.replace('+',' '));
+    var timestamp = new Date(date.replace('+',' ') + " UTC");
     return (timestamp.getTime() / 1000);
   }
 }

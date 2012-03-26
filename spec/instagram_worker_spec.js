@@ -58,8 +58,8 @@ describe("Instagram Worker", function(){
       var w = new iw.InstagramWorker(message);
       expect(w.lng).toEqual(-3.703611);
       expect(w.lat).toEqual(40.416691);
-      expect(w.min_timestamp).toEqual(1305428400);
-      expect(w.max_timestamp).toEqual(1305514799);
+      expect(w.min_timestamp).toEqual(1305417600);
+      expect(w.max_timestamp).toEqual(1305503999);
       expect(w.distance).toEqual(3000);
       expect(w.previewToken).toEqual('123abc');
       expect(w.instagram).not.toBeUndefined();
@@ -75,7 +75,7 @@ describe("Instagram Worker", function(){
       expect(row.map_id).toEqual(33);
       expect(row.avatar_url).toEqual('http://images.instagram.com/profiles/profile_2175025_75sq_1316909039.jpg');
       expect(row.username).toEqual('nachoquintero');
-      expect(row.date).toEqual('2011-5-15T22:54:7');
+      expect(row.date).toEqual('2011-5-15T19:54:7');
       expect(row.permalink).toEqual('http://instagr.am/p/ETKyS/');
       expect(row.data).toEqual('http://distillery.s3.amazonaws.com/media/2011/05/15/b6aec805431a43538bb9fc0a61404600_7.jpg');
       expect(row.latitude).toEqual(40.42533);
