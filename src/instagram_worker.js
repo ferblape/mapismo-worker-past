@@ -69,8 +69,8 @@ InstagramWorker.prototype = {
       map_id: this.mapId,
       avatar_url: photoObj.user.profile_picture,
       username: photoObj.user.username,
-      date: auxDate.getFullYear() + '-' + parseInt(auxDate.getMonth()+1) + '-' + auxDate.getDate() + 'T' +
-            auxDate.getHours() + ':' + auxDate.getMinutes() + ':' + auxDate.getSeconds(),
+      date: auxDate.getUTCFullYear() + '-' + parseInt(auxDate.getUTCMonth()+1) + '-' + auxDate.getUTCDate() + 'T' +
+            auxDate.getUTCHours() + ':' + auxDate.getUTCMinutes() + ':' + auxDate.getUTCSeconds(),
       permalink: photoObj.link,
       data: photoObj.images.standard_resolution.url,
       latitude: photoObj.location.latitude,
